@@ -1,0 +1,20 @@
+.column-advertising 
+{
+	list-style-type: none; /*убирает маркировку списка */
+	float: right; /* блочный эл-т показывает как колонку */
+	width: 250px;
+	margin: 0;
+	padding: 0;
+	}
+
+.banner {
+	margin-bottom: 15px;
+	}
+
+.banner:nth-last-child(-n+1) /* последний эл-т списка */
+	{
+	margin: 0;
+	}
+
+
+

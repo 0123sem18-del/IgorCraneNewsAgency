@@ -1,0 +1,9 @@
+# В твоем FastAPI роутере:
+from assistant_openai import ask_chatgpt
+
+@app.get("/")
+async def read_root():
+    # ... логика парсинга ...
+    raw_news = "Заголовок новости с Ленты"
+    ai_summary = await ask_chatgpt(f"Сделай краткий пересказ: {raw_news}")
+    # ... передача в шаблон Jinja2 ...

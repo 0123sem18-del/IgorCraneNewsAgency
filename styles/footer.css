@@ -1,0 +1,127 @@
+.footer-top {
+	background-color: #00122f;
+	color: #ffffff;
+	font-size: 16px;
+	overflow: hidden; /* дает окрасить в свой цвет footer-top */
+	padding-top: 57px;
+	padding-bottom: 43px;
+	}
+
+.footer-menu {
+	float: left; 
+	width: 255px;
+	margin-right: 178px;
+	}
+
+.column-count {
+	column-count: 2;
+	}
+
+.footer-menu-list {
+	padding-left: 0;
+	margin: 0;
+	}
+
+.footer-menu-list-item {
+    list-style-type: none; /*убирает маркировку списка */
+    margin-bottom: 14px; 
+	}
+
+.footer-menu-list-item:nth-child(6) {
+	vertical-align: top;
+    }
+.central-footer-column {
+	float: left;
+	margin-right: 171px;
+	}
+
+.footer-logo {
+	margin-bottom: 16px;  
+	}
+
+.footer-references-list {
+	list-style-type: none;
+	padding-left: 2px;
+	margin: 0;
+	}
+
+.footer-references-list-item {
+	margin-bottom: 14px;
+    }
+
+.social-networks-reference {
+	float: left;
+	}
+
+.social-networks-reference-list {
+	margin-top: 0;
+	margin-bottom: 43px;
+	padding-left: 4px;
+	}
+
+.social-networks {
+    display: inline-block; /* убирает маркировку списка и переводит в строчный тип эл-в*/
+	}
+
+.social-networks:nth-last-child(n+2) {
+	margin-right: 16px;
+	}
+
+.reference {
+	background-repeat: no-repeat;
+	height: 41px;
+	width: 40px;
+	display: block; 
+	}
+
+.vk {
+	background-image: url("../img/icon-vk.png");
+	}
+
+.facebook {
+	background-image: url("../img/icon-facebook.png");
+	}
+
+.twitter {
+	background-image: url("../img/icon-twitter.png");
+	}
+
+.instagram {
+	background-image: url("../img/icon-instagram.png");
+	}	
+
+.address {
+	font-size: 18px;
+	font-style: normal;
+	padding-left: 4px;
+		}
+
+.phone-number {
+	background-image: url("../img/icon-phone.png");
+	background-repeat: no-repeat;
+	padding-left: 31px;
+	display: block;
+	}
+	
+.e-mail {
+	background-image: url("../img/icon-e-mail.png");
+	background-repeat: no-repeat;
+	background-position-y: 4px;
+	display: block;
+	padding-left: 32px;
+	margin-top: 21px;
+    }
+
+.footer-bottom-bar {
+	background-color: #00122f;
+	color: #8d9198;
+	border-top: 1px solid #26354e;
+	/*font-size: 14px;*/
+	text-align: center;
+	padding-bottom: 20px;
+	padding-top: 20px;
+	}
+
+.copyright {
+	font-size: 14px;
+    }

@@ -1,0 +1,21 @@
+# Web server and templates
+fastapi==0.110.0
+uvicorn==0.27.1
+jinja2==3.1.3
+aiofiles==23.2.1
+
+# Parsing
+curl-cffi==0.6.2
+playwright==1.42.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# Config
+python-dotenv==1.0.1
+
+# AI (ProxyAPI / OpenAI-compatible API)
+openai>=1.0.0
+
+# PostgreSQL + RSS
+asyncpg>=0.29.0
+feedparser>=6.0.11

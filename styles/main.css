@@ -1,0 +1,335 @@
+.main {
+	padding-bottom: 57px;
+	}
+
+.central-container {
+	background-color: #f9f9f9;
+	background-image: linear-gradient(to bottom, #efefef, #ffffff); /*затемнение */
+    background-position: top;
+    background-size: 1px 25px; /*Устанавливает ширину и высоту фонового изображения, если указано только одно значение, второе значение будет вычисляться автоматически с сохранением пропорций изображения.*/
+    background-repeat: repeat-x;
+    padding-top: 20px;
+    padding-bottom: 17px;
+	}
+
+.column-daily-news {
+	background-color: #FFFFFF;
+	box-shadow: 1px 0 10px 1px #efefef, -1px 0 10px 1px #efefef; 
+    box-shadow: none 0 1px;	/*ТЕНЬ: 
+		- сдвиг по x (обязательный параметр) Положительное значение этого параметра задаёт сдвиг тени вправо, отрицательное — влево; 
+		- сдвиг по y (обязательный параметр) Положительное значение задаёт сдвиг тени вниз, отрицательное — вверх; 
+		- радиус размытия тени, чем больше это значение, тем сильнее тень становится шире и светлее, если параметр не задан (=0),
+		тень будет не размытой (четкой); 
+		- растяжение, положительное значение растягивает тень, отрицательное - сжимает, если параметр не задан (=0),
+		 тень будет того же размера, что и элемент; 
+		- цвет, по умолчанию черный*/
+	float: left; /* блочный эл-т показывает как колонку */
+	width: 250px; /* сжимает column-daily-news, чтобы справа влезла картинка про Крым*/
+	padding-top: 25px;
+	padding-bottom: 25px;
+	}
+
+.daily-news-title {
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 20px; 
+	padding-bottom: 20px; /*для border-bottom */
+	padding-left: 18px; /*для border-bottom */
+	margin: 0;
+	}
+
+.daily-news-list {
+	list-style-type: none; /*убирает маркировку списка */
+	line-height: 1.37;	
+	padding: 30px 28px 40px 18px; /*от верхнего, правого, нижнего и левого краёв*/
+	margin: 0;
+	}
+
+.daily-news-item { /*padding отталкивает блоки */
+	font-size: 14px;
+	margin-bottom: 21px;
+	}
+
+.daily-news-item:nth-last-child(-n+1) /* последний эл-т списка */
+	{
+	margin: 0;
+	}
+
+.item-title { /*отталкивает строку с ссылкой от заголовка */
+	font-size: 14px;
+	font-weight: normal;
+	margin-top: 0;
+	margin-bottom: 18px;
+	}
+
+.news-item-props {
+	font-size: 12px;
+	padding-right: 10px;
+	}
+
+.a-reference {
+	color: #91919f;
+	}
+
+.a-reference::before {
+	padding-right: 3px;
+	content: '/';
+	}
+
+.news-time {
+	background-image: url("../img/icon-time.png");
+	background-repeat: no-repeat;
+	float: right;	
+	padding-left: 16px;
+	margin-right: 0;
+	}
+
+.news-comments-count {
+	background-image: url("../img/icon-comments.png");
+	background-repeat: no-repeat;
+	float: right;	
+	padding-left: 15px;
+	}
+
+.all-news-reference {
+	color: #5795cf;
+	font-size: 14px;
+	border-bottom-left-radius: 26px;
+	border-bottom-right-radius: 26px;
+	border-top-right-radius: 26px;
+	border: 1px solid #5795cf;
+	border-top-left-radius: 26px;
+	display: block;
+	width: 175px;
+	margin-left: 38px;
+	text-align: center;
+	padding: 13px 33px 13px 33px ; /*поот верхнего, правого, нижнего и левого краёв*/
+   	}
+
+.column-main-news 
+	{
+	float: left; /* блочный эл-т показывает как колонку */
+	margin-left: 19px;
+	}
+
+.main-news-article {
+	background-color: #01273c;
+	color: #ffffff;
+	font-size: 12px;
+	position: relative;
+	padding: 110px 71px 47px 22px; /*от верхнего, правого, нижнего и левого краёв.*/
+	overflow: hidden;
+	}
+
+.main-news-article-picture {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: 0;
+	}
+
+.a-reference-main-news-article {
+	color: #FFFFFF;
+	position: relative;
+	z-index: 1;
+	}
+
+.a-reference-main-news-article::before {
+	padding-right: 3px;
+	content: '/';
+	}
+
+.title-main-news-article {
+	font-size: 30px;
+	font-weight: bold;
+	width: 370px;
+	position: relative;
+	z-index: 1;
+	margin-top: 20px; 
+	margin-bottom: 20px;
+	}
+
+
+.news-article-datetime {
+	position: relative;
+	z-index: 1;
+	}
+
+.news-article-date {
+	margin-right: 17px;
+	}
+
+.news-article-time {
+	background-image: url("../img/icon-time-article.png");
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	}
+
+.main-news-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 17px 14px; /* вертикальный и горизонтальный отступы */
+	width: 463px;
+	margin: 0;
+	padding-left: 0;
+	padding-top: 16px;
+	}
+
+.main-news { 
+	list-style-type: none; 
+	display: flex;
+	flex-direction: column;
+	width: 222px;
+	margin: 0;
+	}
+
+.main-news-picture {
+	display: block;
+	width: 222px;
+	height: 140px;
+	object-fit: cover;
+}
+
+/* Отступы теперь задаются через gap у .main-news-container */
+
+.main-news-item {
+	padding-top: 1px;
+	}
+
+.title-main-news-item {
+	font-size: 14px;
+	line-height: 1.4;
+	font-weight: bold;
+	width: 210px; /*что бы не вставали в одну вертикальную колонку*/
+	margin-top: 0; 
+	margin-bottom: 15px; 
+	}
+
+.main-news-item-props {
+	font-size: 12px;
+	padding-right: 58px; /*правая граница строки со ссылкой*/
+	}
+
+.main-news-time {
+	background-image: url("../img/icon-time.png");
+	background-repeat: no-repeat;
+	float: right;	
+	padding-left: 15px;
+	margin-right: 0;
+	}
+
+.main-news-comments-count {
+	background-image: url("../img/icon-comments.png");
+	background-repeat: no-repeat;
+	float: right;
+	padding-left: 16px;
+	}
+
+.popular-news-title {
+	background-color: #ffffff;
+	border-bottom: 1px solid #ebebeb;
+	font-size: 20px;
+	float: right;
+	width: 412px;
+	padding: 26px 20px 23px 20px;  /*от верхнего, правого, нижнего и левого краёв.*/
+	margin: 0;
+	}
+
+.popular-news-article {
+	background-color: #181f31;
+	color: #ffffff;
+	font-size: 12px;
+	position: relative;
+	float: left;
+	padding: 105px 150px 23px 18px; /*от верхнего, правого, нижнего и левого краёв*/
+	width: 588px;
+	}
+
+.popular-news-article-picture {
+	position: absolute; 
+	left: 0;
+	top: 0; 
+	}
+
+.a-reference-popular-news-article {
+	color: #FFFFFF;
+	position: relative;
+	}
+
+.a-reference-popular-news-article::before {
+	padding-right: 3px;
+	content: '/';
+	}
+
+.title-popular-news-article {
+	font-size: 30px;
+	font-weight: bold;
+	width: 400px;
+	position: relative; 
+	margin-top: 23px;
+	margin-bottom: 13px;
+	}
+
+.popular-news-article-text {
+	color: #cbcbcc;
+	font-size: 14px;
+	line-height: 1.4;
+	position: relative;
+	margin-top: 24px;
+	margin-bottom: 0px;  
+	}
+
+.popular-news-list
+   {
+	background-color: #ffffff;
+	list-style-type: none;
+	left: 565px;
+	float: right;
+	width: 412px;
+	z-index: 2;
+	margin: 0;
+	padding-left: 20px;
+	padding-top: 26px;
+	padding-bottom: 22px;
+	}
+
+.popular-news-item {
+	font-size: 14px;
+	margin-bottom: 30px;
+	}
+
+.title-popular-news-item {
+	line-height: 1.3;
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 0;
+	margin-bottom: 17px;
+	}	
+
+.popular-news-item:nth-last-child(-n+1) /* последний эл-т списка */
+	{
+	margin-bottom: 0;
+	}
+
+.popular-news-item-props {
+	font-size: 12px;
+	padding-right: 215px; /*правая граница строки со ссылкой*/
+	}
+
+.popular-news-time {
+	background-image: url("../img/icon-time.png");
+	background-repeat: no-repeat;
+	float: right;	
+	padding-left: 15px;
+	margin-right: 0;
+	}
+
+.popular-news-comments-count {
+	background-image: url("../img/icon-comments.png");
+	background-repeat: no-repeat;
+	float: right;
+	padding-left: 18px;
+	}
+

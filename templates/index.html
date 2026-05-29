@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Новостное агенство</title>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/header.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/aside.css">
+	<link rel="stylesheet" href="styles/footer.css">
+	<!-- 09.12.2019 вынес стили и добавил normalize -->
+</head>
+<body>
+{# Контекстный эксперт: ленивый запрос к /api/context по клику #}
+{% macro expert_block(news_title) %}
+<button type="button" class="expert-btn" data-title="{{ news_title|e }}">Почему это важно?</button>
+<div class="expert-context" style="display: none; padding: 12px; background: #f4f6f9; border-left: 4px solid #007bff; margin-top: 8px; border-radius: 4px; font-size: 14px; color: #333;"></div>
+{% endmacro %}
+    <header class="header"><!-- 15.12.2019 добавил class="header", чтобы перенсти в него нижний отступ из header-menu -->
+    	<div class="black-bar clearfix"><!-- 13.12.2019 подключил псевдо-класс clearfix::after, устраняет ошибку float -->
+        	<div class="fixed-container">
+        		<h1 class="black-bar-title"><!-- 19.12.2019 изменил имя класса; 10.12.2019 убрал селектор по тегу h1 -->Самые <a class="reference-underline" href="#"> <!-- 15.12.2019 восстановил подчеркивание ссылки --> свежие новости</a> в реальном времени</h1>
+            	<time class="datetime-black-bar" datetime="2018-06-19T12:30">12:30 19.06.2018 </time><!-- 12.12.2019 вынесл time из заголовка -->
+            </div>
+    	</div>  
+
+        <div class="header-bar clearfix"><!-- 13.12.2019 вернул class="header-bar", чтобы убрать огромный отступ сверху header-menu используя псевдо-класс clearfix::after; 11.12.2019 удалил пустой (после вычерка height) class="header-bar"-->
+    		<div class="fixed-container clearfix"><!-- 11.01.2020 добавил class clearfix -->
+    			<img class="logo" src="Img/Logo.png" alt="Новостное агентство, логотип">
+ 
+                <label class="select-wrapper"><!-- 11.01.2020 выбор города через select -->
+                    <select class="custom-select">
+                        <option value="Msc">Москва</option>
+                    </select>
+                 </label>
+
+                <time class="hidden" datetime="2018-06-19T10:48"><!-- 13.12.2019 добавил class="hidden", чтобы прописать float на сам time, а не на его дочерние span элементы; 09.12.2019 после изменения в CSS значения св-ва position на relative удалил time class="time-hidden", перенес его св-ва во вложенные span -->
+                	<span class="hidden-date">19 июня, вторник</span>
+                    <span class="hidden-time">10:48</span>
+                </time>
+                <span class="temperature">+22 ℃</span>
+               	{# GET /?topic=... — тот же параметр, что и у пунктов меню #}
+               	<form class="site-search" method="get" action="/">
+                   	<input class="place-holder" type="search" placeholder="Фильтр по теме (например, Политика)" size="25" name="topic" value="{{ current_topic if current_topic != 'Главная' else '' }}">
+                	<button class="submit-button" aria-label="Фильтр по теме" type="submit"></button>
+                </form>
+            </div>
+    	</div>  
+        
+    	<nav class="header-menu">
+	        <div class="fixed-container">
+	            <ul class="header-menu-list"><!-- 09.12.2019 убрал селектор по тегу ul -->
+                    {# Ссылки на GET / с topic; активная вкладка — по current_topic из main.py #}
+                    <li class="header-menu-item{% if current_topic == 'Главная' %} header-menu-item--active{% endif %}">
+                        <a href="/">Главная</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Политика' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Политика">Политика</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Общество' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Общество">Общество</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Экономика' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Экономика">Экономика</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'В мире' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=В%20мире">В мире</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Происшествия' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Происшествия">Происшествия</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Спорт' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Спорт">Спорт</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Наука' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Наука">Наука</a>
+                    </li>
+                    <li class="header-menu-item{% if current_topic == 'Туризм' %} header-menu-item--active{% endif %}">
+                        <a href="/?topic=Туризм">Туризм</a>
+                    </li>
+                </ul>
+        	</div>
+    	</nav>
+    </header>
+
+    <main class="main"> 
+        <div class="central-container clearfix"><!-- Устраняет ошибку float, опускает на высоту контента вложенных блоков (column-left, column-center или column-right) начинающийся со следующей строки блок special-news -->
+	        <div class="fixed-container">
+<!-- *************** колонка Новости дня *************** -->
+    	        <section class="column-daily-news">
+        	        <h2 class="daily-news-title"><!-- 19.12.2019 изменил имя класса; 10.12.2019 убрал селектор по тегу h2 -->Новости дня</h2>
+        	        <ul class="daily-news-list"><!-- 10.12.2019 убрал селектор по тегу li -->
+                {% for news in daily_news %}
+                	    <li class="daily-news-item"><!-- 09.12.2019 убрал селектор по тегу ul -->
+                    	    <article>
+                        	    <h3 class="item-title"><!-- 19.12.2019 ЗДЕСЬ И ДАЛЕЕ изменил имя класса; 10.12.2019 убрал селектор по тегу h3 -->
+                            	    <a href="{{ news.url }}">{{ news.title }}</a>
+	                            </h3>
+                                {{ expert_block(news.title) }}
+	                            <div class="news-item-props clearfix"><!-- 21.12.2019 ЗДЕСЬ И ДАЛЕЕ убрал ошибку float-->
+        	                        <a class="a-reference" href="{{ news.url }}">{{ news.category }}</a>
+                                    <time class="news-time" datetime="{{ news.datetime_iso or '' }}">{{ news.time_display }}</time>
+                    	        </div>
+                        	</article>
+	                    </li>
+                {% endfor %}
+    	            </ul>    
+        	        <a href="#" class="all-news-reference">Все новости</a>
+            	</section>
+<!-- ************ колонка центральная секция ************ -->
+                <section class="column-main-news">
+                    <h2 class="visually-hidden">Скрытый заголовок: Центральная секция</h2>
+    	            <article class="main-news-article">
+                            <img class="main-news-article-picture" src="{{ main_hero.image_url or 'Img/clean-news-article.png' }}" width="462" alt="{{ main_hero.title|e }}"><!-- 18.12.2019 добавил новый класс main-news-article-picture; 09.12.2019 поменял значение width -->
+           	                <a class="a-reference-main-news-article" href="{{ main_hero.url }}"><!-- 24.12.2019 удалил родительский class main-news-article-props; 19.12.2019 прописал (20.12.2019 переименовал) class a-reference-main-news-article -->{{ main_hero.category }}</a><!-- 19.12.2019 ЗДЕСЬ и в popular-news-article убрал / -->
+                      	    <h3 class="title-main-news-article clearfix"><!-- 21.12.2019 ЗДЕСЬ и в popular-news-article убрал ошибку float; 10.12.2019 убрал селектор по тегу h3 -->
+                                <a href="{{ main_hero.url }}"><!-- 29.12.2019 удалил (20.12.2019 добавил) class a-title -->{{ main_hero.title }}</a>
+                        	</h3>
+                            {{ expert_block(main_hero.title) }}
+                            <time class="news-article-datetime" datetime="2018-06-19T10:48"><!-- 11.01.2020 объединил main-news-article-datetime/date/time и popular-news-article-datetime/date/time в один class news-article-datetime/date/time; 21.12.2019 добавил новый class main-news-article-datetime; 09.12.2019 после изменения в CSS значения св-ва position на relative удалил time class="main-news-time-article", перенес его св-ва во вложенные span -->
+                                <span class="news-article-date">{{ main_hero.date_display or '' }}</span>
+                                <span class="news-article-time">{{ main_hero.time_display or '' }}</span>
+                            </time>
+        	        </article>
+            	    
+                    <ul class="main-news-container"><!-- 20.12.2019 заменил div на ul, class main-news переименовал в main-news-container-->
+                        {% for news in main_grid %}
+                        <li class="main-news"><!-- 20.12.2019 ЗДЕСЬ И ДАЛЕЕ заменил article на li, class'ы main-news-1,2,3,4 переопределил в main-news псевдо-классы nth-child-->
+                    	    {% if loop.index0 == 0 %}
+                    	    <img class="main-news-picture" src="{{ news.image_url or 'Img/news-1.png' }}" width="222" alt="{{ news.title|e }}"><!-- 09.12.2019 поменял значение width -->
+                    	    {% elif loop.index0 == 1 %}
+        	                <img class="main-news-picture" src="{{ news.image_url or 'Img/news-3.png' }}" width="222" alt="{{ news.title|e }}"><!-- 09.12.2019 поменял значение width -->
+                    	    {% elif loop.index0 == 2 %}
+                            <img class="main-news-picture" src="{{ news.image_url or 'Img/news-2.png' }}" width="222" alt="{{ news.title|e }}"><!-- 09.12.2019 поменял значение width -->
+                    	    {% else %}
+                	        <img class="main-news-picture" src="{{ news.image_url or 'Img/news-4.png' }}" width="222" alt="{{ news.title|e }}"><!-- 09.12.2019 поменял значение width -->
+                    	    {% endif %}
+                        	<div class="main-news-item">
+                            	<h3 class="title-main-news-item"><!-- 10.12.2019 убрал селектор по тегу h3 -->
+                            		<a href="{{ news.url }}">{{ news.title }}</a>
+	                            </h3>
+                                {{ expert_block(news.title) }}
+    	                        <div class="main-news-item-props clearfix"><!-- 19.12.2019 ЗДЕСЬ И ДАЛЕЕ изменил имя class на main-news-item-props (вместо news-item-props) -->
+        	                        <a class="a-reference" href="{{ news.url }}"><!-- 19.12.2019 ЗДЕСЬ И ДАЛЕЕ прописал class a-reference -->{{ news.category }}</a><!-- 19.12.2019 ЗДЕСЬ И ДАЛЕЕ убрал / -->
+                                    <time class="main-news-time" datetime="{{ news.datetime_iso or '' }}">{{ news.time_display }}</time>
+                	            </div>
+                        	</div>
+	                    </li>
+                        {% endfor %}
+                    </ul>
+        	    </section>
+<!-- ************ колонка - блок с рекламой ************ -->
+            	<aside>
+                    <ul class="column-advertising"><!-- 14.01.2020 блок с рекламой реализовал списком, чтобы на последнем banner'е обнулить нижний отступ через псевдо-класс-->
+                	    <li class="banner"><!-- 14.01.2020 перенес class banner с <a> --> 
+                            <a href="#"><!-- 29.12.2019 перенес class banner с img -->
+                                <img src="Img/banner-1.png" alt="специальные цены на лексус эн икс">
+                            </a>
+                        </li>
+                        <li class="banner"><!-- 14.01.2020 перенес class banner с <a> -->
+                            <a href="#"><!-- 13.01.2020 добавил class banner -->
+	                            <img src="Img/banner-2.png" alt="удобные расчеты кредитной картой"><!-- 26.12.2019 удалил class banner -->
+                    	    </a>
+                        </li>                     
+    	            </ul>
+                </aside>
+        	</div>
+    	</div>
+<!-- ******* нижний блок - Cамые читаемые новости ******* -->
+        <section><!-- 29.12.2019 удалил (27.12.2019 добавил) class popular-news -->
+            <div class="fixed-container clearfix"><!-- 27.12.2019 добавил class fixed-container clearfix -->
+                <h2 class="popular-news-title"><!-- 27.12.2019 убрал вложенность h2 в class'ы fixed-container и column-popular-news; 10.12.2019 убрал селектор по тегу h2 -->Самые читаемые новости</h2>
+                <!-- 28.12.2019 удбрал обертку article в class column-popular-news-->
+
+                    <article class="popular-news-article"><!-- 27.12.2019 добавил class popular-news-article-->
+                        <img class="popular-news-article-picture" src="{{ popular_featured.image_url or 'Img/clean-special-article.png' }}" width="588" alt="{{ popular_featured.title|e }}"><!-- 26.12.2019 добовил class popular-news-article-picture; 09.12.2019 поменял значение width -->
+                        <a class="a-reference-popular-news-article" href="{{ popular_featured.url }}"><!-- 20.12.2019 прописал class a-reference-popular-news-article -->{{ popular_featured.category }}</a>
+                        <h3 class="title-popular-news-article clearfix"><!-- 10.12.2019 убрал селектор по тегу h3 -->
+                            <a href="{{ popular_featured.url }}">{{ popular_featured.title }}</a><!-- 29.12.2019 удалил (20.12.2019 добавил) class a-title -->
+                        </h3>
+                        {{ expert_block(popular_featured.title) }}
+                        <time class="news-article-datetime" datetime="{{ popular_featured.datetime_iso or '' }}"><!-- 11.01.2020 объединил main-news-article-datetime/date/time и popular-news-article-datetime/date/time в один class news-article-datetime/date/time; 22.12.2019 добавил новый class popular-news-article-datetime; 09.12.2019 после изменения в CSS значения св-ва position на relative удалил time class="popular-news-time-article", перенес его св-ва во вложенные span -->
+                            <span class="news-article-date">{{ popular_featured.date_display or '' }}</span>
+                            <span class="news-article-time">{{ popular_featured.time_display or '' }}</span>
+                        </time>
+                        <p class="popular-news-article-text">{{ popular_featured.lead or '' }}</p>
+                    </article>
+
+                <ul class="popular-news-list"><!-- 09.12.2019 убрал селектор по тегу ul -->
+                {% for news in popular_list %}
+               	    <li class="popular-news-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                   		<article>
+                            <h3 class="title-popular-news-item"><!-- 10.12.2019 убрал селектор по тегу h3 -->
+                                <a href="{{ news.url }}">{{ news.title }}</a>
+           	                </h3>
+                            {{ expert_block(news.title) }}
+               		        <div class="popular-news-item-props"><!-- 22.12.2019 ЗДЕСЬ И ДАЛЕЕ изменил имя class на popular-news-item-props-->
+                                <a class="a-reference" href="{{ news.url }}"> {{ news.category }}</a>
+                                <time class="popular-news-time" datetime="{{ news.datetime_iso or '' }}">{{ news.time_display }}</time>
+                            </div>
+	                    </article>
+       	            </li>
+                {% endfor %}
+                </ul>
+		    </div>
+        </section>
+    </main>
+<!-- ********************* футер ********************* -->
+    <footer> 
+        <div class="footer-top">
+            <div class="fixed-container clearfix">
+                <nav class="footer-menu"> 
+                    <ul class="footer-menu-list column-count"><!-- 29.12.2019 добавил для ul class column-count; 09.12.2019 убрал селектор по тегу ul -->
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Главная</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Политика</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Общество</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Экономика</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">В мире</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Путешествия</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Спорт</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Наука</a>
+                        </li>
+                        <li class="footer-menu-list-item"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a href="#">Туризм</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="central-footer-column">
+                    <img class="footer-logo" src="Img/reverse-logo.png" alt="Новостное агентство, логотип"><!-- 28.12.2019 добавил class footer-logo; 26.12.2019 удалил class footer-logo -->
+                    <ul class="footer-references-list"><!-- 09.12.2019 убрал селектор по тегу ul -->
+                        <li class="footer-references-list-item"><!-- 26.12.2019 ЗДЕСЬ И НИЖЕ добавил class footer-references-list-item -->
+                            <a href="#"><!-- 26.12.2019 удалил class footer-agency -->Об агентсве</a>
+                        </li>
+                        <li class="footer-references-list-item">
+                            <a href="#"><!-- 26.12.2019 удалил class footer-contacts -->Контакты</a>
+                        </li>
+                        <li class="footer-references-list-item">
+                            <a href="#"><!-- 26.12.2019 удалил class footer-publicate -->Опубликовать новость</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="social-networks-reference">
+                    <ul class="social-networks-reference-list"><!-- 26.12.2019 добавил class social-networks-reference-list --> 
+                        <li class= "social-networks"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a class="vk reference" href="#" aria-label="социальная сеть В контакте"><!-- 09.01.2020 ЗДЕСЬ И ДАЛЕЕ разбил на 2 классса --> </a>
+                        </li>
+                        <li class= "social-networks"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a class="facebook reference" href="#" aria-label="социальная сеть Facebook"></a>
+                        </li> 
+                        <li class= "social-networks"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a class="twitter reference" href="#" aria-label="социальная сеть Twitter"></a>
+                        </li>
+                        <li class= "social-networks"><!-- 10.12.2019 убрал селектор по тегу li -->
+                            <a class="instagram reference" href="#" aria-label="социальная сеть Instagram"></a>
+                        </li>
+                    </ul>
+                    <address class="address"><!-- 26.12.2019 добавил class address -->
+                        <a class="phone-number" href="tel:+7(499)995-55-55">+7 (499) 995-55-55</a>
+                        <a class="e-mail" href="mailto:info@agency.ru">info@agency.ru</a>
+                    </address>
+                </div>
+            </div>     
+        </div>
+            
+        <div class="footer-bottom-bar">
+            <div class="fixed-container">
+                <small class="copyright">© Новостное агенство, 2017-2018 все права защищены</small><!-- 11.01.2020 добавил class copyright; 09.12.2019 убрал лишнее -->
+            </div>
+        </div>
+    </footer>  
+  <script src="/js/site-time.js"></script>
+  <script>
+  // Ленивая загрузка пояснения от ИИ по клику (ProxyAPI через /api/context)
+  (function () {
+    var ERR = "Не удалось загрузить комментарий эксперта. Попробуйте позже.";
+
+    document.querySelectorAll(".expert-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var title = btn.getAttribute("data-title");
+        if (!title) return;
+
+        var panel = btn.nextElementSibling;
+        if (!panel || !panel.classList.contains("expert-context")) return;
+
+        btn.disabled = true;
+        btn.textContent = "Анализирую...";
+
+        fetch("/api/context?title=" + encodeURIComponent(title))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            panel.textContent = data.context || ERR;
+            panel.style.display = "block";
+            panel.style.opacity = "0";
+            panel.style.transition = "opacity 0.35s ease";
+            requestAnimationFrame(function () {
+              panel.style.opacity = "1";
+            });
+            btn.style.display = "none";
+          })
+          .catch(function () {
+            panel.textContent = ERR;
+            panel.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "Почему это важно?";
+          });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
