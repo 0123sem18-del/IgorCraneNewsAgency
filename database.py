@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import ssl
 from datetime import datetime, timezone
 from typing import Any
 
@@ -93,14 +94,16 @@ async def _expire_stale(db: DbHandle) -> None:
 
 
 async def connect_direct() -> asyncpg.Connection:
-    """Отдельное соединение с минимальным набором параметров."""
     dsn = os.getenv("DATABASE_URL")
-    if not dsn:
-        raise RuntimeError("DATABASE_URL не задан")
+
+    # Создаем SSL-контекст, который доверяет самоподписанным сертификатам Aiven
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
     return await asyncpg.connect(
         dsn,
-        ssl=True,
-        command_timeout=30,
+        ssl=ctx  # Передаем контекст, который игнорирует проверку цепочки
     )
 
 
